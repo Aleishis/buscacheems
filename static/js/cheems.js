@@ -21,6 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (id == randomNumber){
                 img.src = window.IMG_BAD;
+
+                images.forEach((img, index) => {
+                    let id = index + 1;
+
+                    if (id != randomNumber){
+                        img.src = window.IMG_OK
+                    }
+
+                })  
+
+
+                
                 
                 alert("Perdiste")
                 
