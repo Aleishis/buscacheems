@@ -46,7 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 //alert("Ganaste")
 
                 if(clickedCards.size === 14){
-                    alert("Ganaste");
+                    //alert("Ganaste");
+                    const modal = new bootstrap.Modal(document.getElementById("modal-winner"));
+                    modal.show();
                 }
             }
         })
