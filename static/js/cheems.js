@@ -1,8 +1,7 @@
 //document object model
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
+
+    document.getElementById("btn-save").addEventListener("click", saveWinner);
 
    const randomNumber = Math.floor(Math.random() * 14 ) + 1;
 
@@ -19,8 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = index + 1;
         img.dataset.id = id;
 
-        
-        
         img.addEventListener("click", () => {
 
             if(!clickedCards.has(id)){
@@ -54,5 +51,45 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         
    })
+
+   function saveWinner(){
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phrase = document.getElementById("phrase").value.trim();
+
+        if (!name || !email || !phrase){
+            alert("Por favor completa todos los campos");
+            return;
+        }
+
+        fetch("/winner", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"}, //Se indica que lo que se envia es un tipo json
+            body: JSON.stringify({
+                name: name, //primer name es el parametro que se espera en app.py, el segundo su valor
+                email: email,
+                phrase: phrase
+            })
+        })
+        //Recibe la promsea de la llamada para saber si se cumplio
+        .then(response => {
+            if (response.ok){
+                return response.json();
+            }else{
+                return Promise.reject();
+            }
+        })
+        .then(result => {
+            if(result.success){//Se pone success porque asi esta en el jsonify del app.py
+                alert("El registro fue guardado correctamente");
+            }else{
+                alert("No se pudo guardar, intente mas tarde");
+            }
+
+        })
+        .catch(error => {
+            console.error("Error: ", error)
+        })
+   }
 
 });
